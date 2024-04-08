@@ -1,12 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using SoftDeleteEFCore.Data;
+using SoftDeleteEFCore.Interceptors;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("Pessoas"));
+builder.Services.AddSingleton<SoftDeleteInterceptor>();
+builder.Services.AddDbContext<ApplicationDbContext>(
+    (sp, opt) => opt
+    .UseInMemoryDatabase("Pessoas")
+    .AddInterceptors(
+            sp.GetRequiredService<SoftDeleteInterceptor>()));
 
 var app = builder.Build();
 

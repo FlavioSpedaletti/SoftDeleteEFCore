@@ -3,7 +3,7 @@ using SoftDeleteEFCore.Models;
 
 namespace SoftDeleteEFCore.Data
 {
-    public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
+    public sealed class ApplicationDbContext(DbContextOptions options) : DbContext(options)
     {
         public DbSet<Pessoa> Pessoas { get; set; }
 
@@ -11,8 +11,13 @@ namespace SoftDeleteEFCore.Data
         {
             modelBuilder.Entity<Pessoa>(builder =>
             {
-                
+                modelBuilder.Entity<Pessoa>().HasQueryFilter(r => !r.IsDeleted);
             });
+
+            //só para sql server
+            //modelBuilder.Entity<Pessoa>()
+            //    .HasIndex(r => r.IsDeleted)
+            //    .HasFilter("IsDeleted = 0");
         }
     }
 }

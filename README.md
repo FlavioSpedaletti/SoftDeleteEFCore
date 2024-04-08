@@ -1,3 +1,5 @@
+https://www.milanjovanovic.tech/blog/implementing-soft-delete-with-ef-core
+
 o delete or not to delete, that is the question (pun intended).
 
 The traditional way to remove information in a database is through a "hard delete." A hard delete permanently erases a record from the database table. While this seems straightforward, it presents a significant risk: once that data is gone, it's gone for good.
